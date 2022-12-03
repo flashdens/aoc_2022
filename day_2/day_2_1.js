@@ -21,42 +21,22 @@ const linijki = fs
 // C Y = 2 + 0 = 2
 // C Z = 3 + 3 = 6
 
-function rozstrzygnijRunde(figuraPrzeciwnika, figuraGracza) {
-  switch (figuraPrzeciwnika) {
-    case "A":
-      switch (figuraGracza) {
-        case "X":
-          return 4;
-        case "Y":
-          return 8;
-        case "Z":
-          return 3;
-      }
-    case "B":
-      switch (figuraGracza) {
-        case "X":
-          return 1;
-        case "Y":
-          return 5;
-        case "Z":
-          return 9;
-      }
-    case "C":
-      switch (figuraGracza) {
-        case "X":
-          return 7;
-        case "Y":
-          return 2;
-        case "Z":
-          return 6;
-      }
-  }
-}
+let rozstrzygnijRunde = {
+  AX: 4,
+  AY: 8,
+  AZ: 3,
+  BX: 1,
+  BY: 5,
+  BZ: 9,
+  CX: 7,
+  CY: 2,
+  CZ: 6,
+};
 
 let suma = 0;
 
 for (let i = 0; i < linijki.length; i++) {
-  suma += rozstrzygnijRunde(linijki[i][0], linijki[i][1]);
+  suma += rozstrzygnijRunde[linijki[i][0] + linijki[i][1]];
 }
 
 console.log(suma);
