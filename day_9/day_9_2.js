@@ -7,7 +7,7 @@ const linijki = fs
   .trim()
   .split("\n");
 
-const aktualizujWeza = (elementPrzed, element) => {
+const aktualizujWeza = (element, elementPrzed) => {
   let roznicaX = elementPrzed.x - element.x;
   let roznicaY = elementPrzed.y - element.y;
   if (roznicaX > 1 || roznicaY > 1 || roznicaX < -1 || roznicaY < -1) {
@@ -28,40 +28,40 @@ const aktualizujTabeleWartosci = (a, b) => {
 
 const render = (kierunek, ile) => {
   for (let i = 0; i < ile; i++) {
-    wonsz.unshift({ x: wonsz[0].x, y: wonsz[0].y });
-    console.log(wonsz[0]);
     switch (kierunek) {
       case "U":
-        wonsz[0].y++;
+        wonsz.unshift({ x: wonsz[0].x, y: wonsz[0].y + 1 });
         break;
       case "L":
-        wonsz[0].x--;
+        wonsz.unshift({ x: wonsz[0].x - 1, y: wonsz[0].y });
         break;
       case "R":
-        wonsz[0].x++;
+        wonsz.unshift({ x: wonsz[0].x + 1, y: wonsz[0].y });
         break;
       case "D":
-        wonsz[0].y--;
+        wonsz.unshift({ x: wonsz[0].x, y: wonsz[0].y - 1 });
         break;
     }
-    for (let i = 1; i < wonsz.length; i++) {
-      aktualizujWeza(wonsz[i], wonsz[i - 1]);
+    for (let i = 0; i < wonsz.length - 1; i++) {
+      if (wonsz.length === 11) {
+        wonsz.pop();
+        aktualizujWeza(wonsz[i], wonsz[i + 1]);
+        aktualizujTabeleWartosci(
+          wonsz[wonsz.length - 1].x,
+          wonsz[wonsz.length - 1].y
+        );
+      }
     }
-    let tail = wonsz[0];
-    console.log(tail);
-    aktualizujTabeleWartosci(tail.x, tail.y);
-  }
-  if (wonsz.length == 11) {
-    wonsz.pop();
   }
 };
-let wonsz = [];
+let wonsz = new Array();
 wonsz[0] = { x: 0, y: 0 };
 let tabWartosci = [];
 
 for (let i = 0; i < linijki.length; i++) {
   let polecenie = linijki[i].split(" ");
   render(polecenie[0], polecenie[1]);
+  console.log(wonsz);
 }
 
 console.log(tabWartosci.length);
